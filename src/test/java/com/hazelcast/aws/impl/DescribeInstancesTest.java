@@ -16,9 +16,8 @@
 
 package com.hazelcast.aws.impl;
 
+import com.hazelcast.aws.Config;
 import com.hazelcast.aws.utility.Environment;
-import com.hazelcast.config.AwsConfig;
-import com.hazelcast.config.InvalidConfigurationException;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelTest;
 import com.hazelcast.test.annotation.QuickTest;
@@ -29,7 +28,10 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 @RunWith(HazelcastParallelClassRunner.class)
 @Category({QuickTest.class, ParallelTest.class})
@@ -47,7 +49,7 @@ public class DescribeInstancesTest {
 
         final String uri = "http://" + DescribeInstances.IAM_ROLE_ENDPOINT + "/latest/meta-data/iam/security-credentials/";
 
-        DescribeInstances descriptor = spy(new DescribeInstances(new AwsConfig()));
+        DescribeInstances descriptor = spy(new DescribeInstances(new Config()));
         doReturn("").when(descriptor).retrieveRoleFromURI(uri);
         descriptor.checkKeysFromIamRoles(mockedEnv);
     }
@@ -79,7 +81,7 @@ public class DescribeInstancesTest {
 
 
         // test when <iam-role>DEFAULT</iam-role>
-        AwsConfig awsConfig = new AwsConfig();
+        Config awsConfig = new Config();
         awsConfig.setIamRole("DEFAULT");
 
         DescribeInstances descriptor = spy(new DescribeInstances(awsConfig));
@@ -91,7 +93,7 @@ public class DescribeInstancesTest {
         Assert.assertEquals("Could not parse secret key from IAM role", secretAccessKey, awsConfig.getSecretKey());
 
         // test when <iam-role></iam-role>
-        awsConfig = new AwsConfig();
+        awsConfig = new Config();
         awsConfig.setIamRole("");
 
         descriptor = spy(new DescribeInstances(awsConfig));
@@ -103,7 +105,7 @@ public class DescribeInstancesTest {
         Assert.assertEquals("Could not parse secret key from IAM role", secretAccessKey, awsConfig.getSecretKey());
 
         // test when no <iam-role></iam-role> defined, BUT default IAM role has been assigned
-        awsConfig = new AwsConfig();
+        awsConfig = new Config();
 
         descriptor = spy(new DescribeInstances(awsConfig));
         doReturn(defaultIamRoleName).when(descriptor).retrieveRoleFromURI(uri);
@@ -118,7 +120,7 @@ public class DescribeInstancesTest {
 
     @Test
     public void test_whenAccessKeyExistsInConfig() throws IOException {
-        AwsConfig awsConfig = new AwsConfig();
+        Config awsConfig = new Config();
         awsConfig.setAccessKey("accesskey");
         awsConfig.setSecretKey("secretkey");
         new DescribeInstances(awsConfig, "endpoint");
@@ -146,7 +148,7 @@ public class DescribeInstancesTest {
             "        }\n";
 
 
-        AwsConfig awsConfig = new AwsConfig();
+        Config awsConfig = new Config();
         awsConfig.setIamRole(someRole);
 
         DescribeInstances descriptor = spy(new DescribeInstances(awsConfig));
@@ -183,7 +185,7 @@ public class DescribeInstancesTest {
         Environment mockedEnv = mock(Environment.class);
         when(mockedEnv.getEnvVar(Constants.ECS_CREDENTIALS_ENV_VAR_NAME)).thenReturn(ecsEnvVarCredsUri);
 
-        AwsConfig awsConfig = new AwsConfig();
+        Config awsConfig = new Config();
 
         // test when default role is null
         DescribeInstances descriptor = spy(new DescribeInstances(awsConfig));

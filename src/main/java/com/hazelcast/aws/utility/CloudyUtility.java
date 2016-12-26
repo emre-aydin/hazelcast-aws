@@ -16,7 +16,7 @@
 
 package com.hazelcast.aws.utility;
 
-import com.hazelcast.config.AwsConfig;
+import com.hazelcast.aws.Config;
 import com.hazelcast.logging.ILogger;
 import com.hazelcast.logging.Logger;
 import org.w3c.dom.Document;
@@ -47,7 +47,7 @@ public final class CloudyUtility {
     private CloudyUtility() {
     }
 
-    public static Map<String, String> unmarshalTheResponse(InputStream stream, AwsConfig awsConfig) throws IOException {
+    public static Map<String, String> unmarshalTheResponse(InputStream stream, Config awsConfig) throws IOException {
         DocumentBuilder builder;
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -110,7 +110,7 @@ public final class CloudyUtility {
             return result;
         }
 
-        Map<String, String> getAddresses(AwsConfig awsConfig) {
+        Map<String, String> getAddresses(Config awsConfig) {
             Map<String, String> privatePublicPairs = new LinkedHashMap<String, String>();
             if (node == null) {
                 return privatePublicPairs;
@@ -181,12 +181,12 @@ public final class CloudyUtility {
             return (child == null ? null : child.getFirstChild().getNodeValue());
         }
 
-        private static boolean acceptTag(AwsConfig awsConfig, Node node) {
+        private static boolean acceptTag(Config awsConfig, Node node) {
             return applyTagFilter(node, awsConfig.getTagKey(), awsConfig.getTagValue());
         }
 
-        private static boolean acceptGroupName(AwsConfig awsConfig, Node node) {
-            return applyFilter(node, awsConfig.getSecurityGroupName(), "groupset", "groupname");
+        private static boolean acceptGroupName(Config awsConfig, Node node) {
+            return applyFilter(node, awsConfig.getSecurityGroup(), "groupset", "groupname");
         }
 
         private static boolean applyFilter(Node node, String filter, String set, String filterField) {

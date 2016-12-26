@@ -16,7 +16,6 @@
 
 package com.hazelcast.aws;
 
-import com.hazelcast.config.AwsConfig;
 import com.hazelcast.config.InvalidConfigurationException;
 import com.hazelcast.test.HazelcastParallelClassRunner;
 import com.hazelcast.test.annotation.ParallelTest;
@@ -38,7 +37,7 @@ public class AwsClientTest {
 
     @Test
     public void testAwsClient_getEndPoint() {
-        AwsConfig awsConfig = new AwsConfig();
+        Config awsConfig = new Config();
         awsConfig.setIamRole("test");
         AWSClient awsClient = new AWSClient(awsConfig);
         assertEquals("ec2.us-east-1.amazonaws.com", awsClient.getEndpoint());
@@ -46,7 +45,7 @@ public class AwsClientTest {
 
     @Test
     public void testAwsClient_withDifferentHostHeader() {
-        AwsConfig awsConfig = new AwsConfig();
+        Config awsConfig = new Config();
         awsConfig.setIamRole("test");
         awsConfig.setHostHeader("ec2.amazonaws.com.cn");
         awsConfig.setRegion("cn-north-1");
@@ -56,7 +55,7 @@ public class AwsClientTest {
 
     @Test(expected = InvalidConfigurationException.class)
     public void testAwsClient_withInvalidHostHeader() {
-        AwsConfig awsConfig = new AwsConfig();
+        Config awsConfig = new Config();
         awsConfig.setIamRole("test");
         awsConfig.setHostHeader("ec3.amazonaws.com.cn");
         new AWSClient(awsConfig);

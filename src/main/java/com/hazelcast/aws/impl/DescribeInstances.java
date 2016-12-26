@@ -16,11 +16,11 @@
 
 package com.hazelcast.aws.impl;
 
+import com.hazelcast.aws.Config;
 import com.hazelcast.aws.security.EC2RequestSigner;
 import com.hazelcast.aws.utility.CloudyUtility;
 import com.hazelcast.aws.utility.Environment;
 import com.hazelcast.com.eclipsesource.json.JsonObject;
-import com.hazelcast.config.AwsConfig;
 import com.hazelcast.config.InvalidConfigurationException;
 
 import java.io.BufferedReader;
@@ -47,11 +47,11 @@ public class DescribeInstances {
     public static final String IAM_TASK_ROLE_ENDPOINT = "169.254.170.2";
 
     private EC2RequestSigner rs;
-    private AwsConfig awsConfig;
+    private Config awsConfig;
     private String endpoint;
     private Map<String, String> attributes = new HashMap<String, String>();
 
-    public DescribeInstances(AwsConfig awsConfig, String endpoint) throws IOException {
+    public DescribeInstances(Config awsConfig, String endpoint) throws IOException {
         if (awsConfig == null) {
             throw new IllegalArgumentException("AwsConfig is required!");
         }
@@ -71,7 +71,7 @@ public class DescribeInstances {
         attributes.put("X-Amz-Expires", "30");
     }
 
-    DescribeInstances(AwsConfig awsConfig) {
+    DescribeInstances(Config awsConfig) {
         if (awsConfig == null) {
             throw new IllegalArgumentException("AwsConfig is required!");
         }

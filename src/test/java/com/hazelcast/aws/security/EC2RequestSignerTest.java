@@ -16,8 +16,8 @@
 
 package com.hazelcast.aws.security;
 
+import com.hazelcast.aws.Config;
 import com.hazelcast.aws.impl.DescribeInstances;
-import com.hazelcast.config.AwsConfig;
 import com.hazelcast.test.HazelcastSerialClassRunner;
 import com.hazelcast.test.annotation.QuickTest;
 import org.junit.Test;
@@ -52,19 +52,19 @@ public class EC2RequestSignerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void whenTimeStampIsNull() {
-        new EC2RequestSigner(new AwsConfig(), null, "");
+        new EC2RequestSigner(new Config(), null, "");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void whenTimeSignServiceIsNull() {
-        EC2RequestSigner signer = new EC2RequestSigner(new AwsConfig(), "", "");
+        EC2RequestSigner signer = new EC2RequestSigner(new Config(), "", "");
 
         signer.sign(null, new HashMap<String, String>());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void whenTimeSignAttributeIsNull() {
-        EC2RequestSigner signer = new EC2RequestSigner(new AwsConfig(), "", "");
+        EC2RequestSigner signer = new EC2RequestSigner(new Config(), "", "");
 
         signer.sign("", null);
     }
@@ -72,11 +72,11 @@ public class EC2RequestSignerTest {
     @Test
     public void deriveSigningKeyTest() throws Exception {
         // this is from http://docs.aws.amazon.com/general/latest/gr/signature-v4-examples.html
-        AwsConfig awsConfig = new AwsConfig();
-        awsConfig.setRegion(TEST_REGION).
-                setHostHeader(TEST_HOST).
-                setAccessKey(TEST_ACCESS_KEY).
-                setSecretKey(TEST_SECRET_KEY);
+        Config awsConfig = new Config();
+        awsConfig.setRegion(TEST_REGION);
+        awsConfig.setHostHeader(TEST_HOST);
+        awsConfig.setAccessKey(TEST_ACCESS_KEY);
+        awsConfig.setSecretKey(TEST_SECRET_KEY);
 
         DescribeInstances di = new DescribeInstances(awsConfig, TEST_HOST);
         // Override the attributes map. We need to change values. Not pretty, but
@@ -103,11 +103,11 @@ public class EC2RequestSignerTest {
 
     @Test
     public void testSigning() throws NoSuchFieldException, IllegalAccessException, IOException {
-        AwsConfig awsConfig = new AwsConfig();
-        awsConfig.setRegion(TEST_REGION).
-                setHostHeader(TEST_HOST).
-                setAccessKey(TEST_ACCESS_KEY).
-                setSecretKey(TEST_SECRET_KEY);
+        Config awsConfig = new Config();
+        awsConfig.setRegion(TEST_REGION);
+        awsConfig.setHostHeader(TEST_HOST);
+        awsConfig.setAccessKey(TEST_ACCESS_KEY);
+        awsConfig.setSecretKey(TEST_SECRET_KEY);
 
         DescribeInstances di = new DescribeInstances(awsConfig, TEST_HOST);
 
