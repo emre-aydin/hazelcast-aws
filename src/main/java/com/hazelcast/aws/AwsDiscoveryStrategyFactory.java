@@ -18,7 +18,7 @@ public class AwsDiscoveryStrategyFactory implements DiscoveryStrategyFactory {
 
     @Override
     public DiscoveryStrategy newDiscoveryStrategy(DiscoveryNode discoveryNode, ILogger logger, Map<String, Comparable> properties) {
-        return new AwsDiscoveryStrategy(discoveryNode, logger, properties);
+        return new AwsDiscoveryStrategy(logger, properties);
     }
 
     @Override

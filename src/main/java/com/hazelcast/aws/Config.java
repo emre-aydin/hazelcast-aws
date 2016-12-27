@@ -10,6 +10,7 @@ public class Config {
     private String hostHeader;
     private String iamRole;
     private int connectionTimeout;
+    private int port;
 
     public String getAccessKey() {
         return accessKey;
@@ -81,5 +82,13 @@ public class Config {
 
     public void setConnectionTimeout(int connectionTimeout) {
         this.connectionTimeout = connectionTimeout;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 }

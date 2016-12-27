@@ -16,7 +16,8 @@ public enum AwsConfigurationProperty {
     SecurityGroup("security-group-name", STRING),
     TagKey("tag-key", STRING),
     TagValue("tag-value", STRING),
-    ConnectionTimeout("connection-timeout", INTEGER);
+    ConnectionTimeout("connection-timeout", INTEGER),
+    Port("hz-port", STRING);
 
     private final PropertyDefinition propertyDefinition;
 
