@@ -2,6 +2,7 @@ package com.hazelcast.aws;
 
 import com.hazelcast.config.NetworkConfig;
 import com.hazelcast.logging.ILogger;
+import com.hazelcast.logging.Logger;
 import com.hazelcast.nio.Address;
 import com.hazelcast.spi.discovery.AbstractDiscoveryStrategy;
 import com.hazelcast.spi.discovery.DiscoveryNode;
@@ -23,14 +24,16 @@ import static com.hazelcast.aws.AwsConfigurationProperty.TagKey;
 import static com.hazelcast.aws.AwsConfigurationProperty.TagValue;
 
 public class AwsDiscoveryStrategy extends AbstractDiscoveryStrategy {
+    private static final ILogger LOGGER = Logger.getLogger(AwsDiscoveryStrategy.class);
+
     private static final int DEFAULT_CONNECTION_TIMEOUT = 5;
     private static final String DEFAULT_REGION = "us-east-1";
 
     private final AWSClient aws;
     private final int port;
 
-    public AwsDiscoveryStrategy(ILogger logger, Map<String, Comparable> properties) {
-        super(logger, properties);
+    public AwsDiscoveryStrategy(Map<String, Comparable> properties) {
+        super(LOGGER, properties);
 
         port = getOrDefault(Port, NetworkConfig.DEFAULT_PORT);
 

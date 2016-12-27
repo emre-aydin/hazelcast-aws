@@ -9,7 +9,7 @@ import static com.hazelcast.config.properties.PropertyTypeConverter.STRING;
 
 public enum AwsConfigurationProperty {
     AccessKey("access-key", STRING),
-    SecretKey("secrey-key", STRING),
+    SecretKey("secret-key", STRING),
     IamRole("iam-role", STRING),
     Region("region", STRING),
     HostHeader("host-header", STRING),
@@ -17,7 +17,7 @@ public enum AwsConfigurationProperty {
     TagKey("tag-key", STRING),
     TagValue("tag-value", STRING),
     ConnectionTimeout("connection-timeout", INTEGER),
-    Port("hz-port", STRING);
+    Port("hz-port", INTEGER);
 
     private final PropertyDefinition propertyDefinition;
 

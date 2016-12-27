@@ -52,9 +52,6 @@ public class DescribeInstances {
     private Map<String, String> attributes = new HashMap<String, String>();
 
     public DescribeInstances(Config awsConfig, String endpoint) throws IOException {
-        if (awsConfig == null) {
-            throw new IllegalArgumentException("AwsConfig is required!");
-        }
         this.awsConfig = awsConfig;
         this.endpoint = endpoint;
 
